@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int WIDTH = 60;
+int WIDTH = 60;
 const int HEIGHT = 20;
 int playerX = WIDTH / 2;
 int playerY = HEIGHT - 1;
@@ -13,8 +13,9 @@ int enemyY[5];
 int bulletX = playerX;
 int bulletY = playerY - 1;
 int score = 0;
-bool isFiring = false;
+bool playerIsFiring = false;
 int numOfEnemies = 5;
+bool enemyIsFiring = false;
 
 void drawBoard();
 
@@ -41,18 +42,19 @@ void drawBoard() {
             }
             else {
                 bool enemyAlive = false;
-                for (int k = 0; k <= numOfEnemies; k++) {
+                for (int k = 0; k < numOfEnemies; k++) {
                     if (i == enemyY[k] && j == enemyX[k]) {
                         cout << "M";
                         enemyAlive = true;
                     }
-                    if (!enemyAlive) {
-                        cout << " ";
-                    }
+                    
                 }
-                if (j == WIDTH - 1) {
-                    cout << "|";
+                if (!enemyAlive) {
+                    cout << " ";
                 }
+            }
+            if (j == WIDTH - 1 || j == WIDTH - 1 - numOfEnemies) {
+                cout << "|";
             }
         }
         cout << endl;
@@ -60,5 +62,18 @@ void drawBoard() {
     for (int i = 0; i < WIDTH + 2; i++) {
         cout << "-";
     }
-    cout << endl << "Score: " << score << endl;
+    cout << endl;
+    cout << "Score: " << score << endl;
+}
+
+void playerInit() {
+    int playerX = WIDTH / 2;
+    int playerY = HEIGHT - 1;
+}
+void enemyInit() {
+    for (int i = 0; i < numOfEnemies; i++) {
+        enemyX[i] = WIDTH / 2 + i + 1;
+        enemyY[i] = 2 + 1;
+        enemyIsFiring = false;
+    }
 }
