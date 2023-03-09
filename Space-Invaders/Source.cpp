@@ -16,7 +16,6 @@ int playerY = HEIGHT - 1;
 int bulletX = playerX;
 int bulletY = playerY - 1;
 int score = 0;
-bool playerIsFiring = false;
 bool isFiring = false;
 int numOfEnemies = 5;
 bool enemyIsFiring = false;
