@@ -137,7 +137,9 @@ void moveEnemies() {
         }
         enemyX[i] += enemyDirection;
         if (enemyReachedEdge) {
-            enemyY[i]++;
+            for (int i = 0; i < numOfEnemies; i++) {
+                enemyY[i]++;
+            }
         }
         if (enemyY[i] >= playerY) {
             gameOver = true;
@@ -179,6 +181,7 @@ void moveBullets() {
                     enemyFiring[j] = false;
                 }
                 score = 0;
+                gameOver = true;
                 break;
             }
         }
