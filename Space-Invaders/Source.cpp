@@ -52,8 +52,13 @@ void drawBoard() {
                     if (i == enemyY[k] && j == enemyX[k]) {
                         cout << "M";
                         enemyAlive = true;
+                        break;
                     }
-                    
+                    else if (i == enemyBulletY[i] && j == enemyBulletX[j]) {
+                        cout << "*";
+                        enemyAlive = true;
+                        break;
+                    }
                 }
                 if (!enemyAlive) {
                     cout << " ";
@@ -124,6 +129,58 @@ void moveEnemies() {
         else {
             enemyReachedEdge = false;
         }
+        if (enemyFiring[i] == false) {
+            srand(time(NULL));
+            int chance = rand() % 2; // Random chance to fire
+            if (chance == 0) {
+                enemyFiring[i] = true;
+                enemyBulletX[i] = enemyX[i];
+                enemyBulletY[i] = enemyY[i] + 1;
+            }
+        }
+        if (enemyFiring[i] == true) {
+            enemyBulletY[i]++;
+            if (enemyBulletY[i] == playerY && enemyBulletX[i] == playerX) {
+                gameOver = true;
+            }
+            else if (enemyBulletY[i] == HEIGHT - 1) {
+                enemyFiring[i] = false;
+            }
+        }
+    }
+    if (enemyReachedEdge) {
+        for (int i = 0; i < 5; i++) {
+            enemyY[i]++;
+            enemyX[i] += enemyDirection;
+        }
+    }
+    else {
+        for (int i = 0; i < 5; i++) {
+            enemyX[i] += enemyDirection;
+        }
+    }
+}
+
+
+
+
+
+/*
+void moveEnemies() {
+    static int enemyDirection = 1;
+    static bool enemyReachedEdge = false;
+    for (int i = 0; i < numOfEnemies; i++) {
+        if (enemyX[i] == 0) {
+            enemyDirection = 1;
+            enemyReachedEdge = true;
+        }
+        else if (enemyX[i] == WIDTH - 1) {
+            enemyDirection = -1;
+            enemyReachedEdge = true;
+        }
+        else {
+            enemyReachedEdge = false;
+        }
         if (!enemyFiring[i] && rand() % 50 == 0) {
             enemyFiring[i] = true;
             enemyBulletX[i] = enemyX[i];
@@ -147,7 +204,7 @@ void moveEnemies() {
         }
     }
 }
-
+*/
 void moveBullets() {
     if (isFiring) {
         bulletY--;
@@ -194,7 +251,7 @@ int main() {
     enemyInit();
     char input;
 
-    while (true) {
+    while (!gameOver) {
         drawBoard();
         moveEnemies();
         moveBullets();
@@ -204,6 +261,6 @@ int main() {
         }
         Sleep(100);
     }
-
+    cout << "GAME OVER";
     return 0;
 }
