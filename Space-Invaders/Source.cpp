@@ -54,7 +54,7 @@ void drawBoard() {
                         enemyAlive = true;
                         break;
                     }
-                    else if (i == enemyBulletY[i] && j == enemyBulletX[j]) {
+                    else if (i == enemyBulletY[k] && j == enemyBulletX[k]) {
                         cout << "*";
                         enemyAlive = true;
                         break;
@@ -83,8 +83,8 @@ void playerInit() {
 }
 void enemyInit() {
     for (int i = 0; i < numOfEnemies; i++) {
-        enemyX[i] = WIDTH / 2 + i + 1;
-        enemyY[i] = 2 + 1;
+        enemyX[i] = enemyX[i];
+        enemyY[i] = enemyY[i];
         enemyIsFiring = false;
     }
 }
@@ -131,7 +131,7 @@ void moveEnemies() {
         }
         if (enemyFiring[i] == false) {
             srand(time(NULL));
-            int chance = rand() % 2; // Random chance to fire
+            int chance = rand() % 4; 
             if (chance == 0) {
                 enemyFiring[i] = true;
                 enemyBulletX[i] = enemyX[i];
@@ -162,49 +162,6 @@ void moveEnemies() {
 }
 
 
-
-
-
-/*
-void moveEnemies() {
-    static int enemyDirection = 1;
-    static bool enemyReachedEdge = false;
-    for (int i = 0; i < numOfEnemies; i++) {
-        if (enemyX[i] == 0) {
-            enemyDirection = 1;
-            enemyReachedEdge = true;
-        }
-        else if (enemyX[i] == WIDTH - 1) {
-            enemyDirection = -1;
-            enemyReachedEdge = true;
-        }
-        else {
-            enemyReachedEdge = false;
-        }
-        if (!enemyFiring[i] && rand() % 50 == 0) {
-            enemyFiring[i] = true;
-            enemyBulletX[i] = enemyX[i];
-            enemyBulletY[i] = enemyY[i] + 1;
-        }
-        if (enemyFiring[i]) {
-            enemyBulletY[i]++;
-            if (enemyBulletY[i] >= HEIGHT) {
-                enemyFiring[i] = false;
-            }
-        }
-        enemyX[i] += enemyDirection;
-        if (enemyReachedEdge) {
-            for (int i = 0; i < numOfEnemies; i++) {
-                enemyY[i]++;
-            }
-        }
-        if (enemyY[i] >= playerY) {
-            gameOver = true;
-            return;
-        }
-    }
-}
-*/
 void moveBullets() {
     if (isFiring) {
         bulletY--;
@@ -212,7 +169,7 @@ void moveBullets() {
             isFiring = false;
             bulletX = ' ';
         }
-        for (int i = 0; i < numOfEnemies; i++) {
+        for (int i = 0; i <= numOfEnemies; i++) {
             if (bulletY == enemyY[i] && bulletX == enemyX[i]) {
                 isFiring = false;
                 enemyX[i] = ' ';
@@ -224,20 +181,13 @@ void moveBullets() {
             }
         }
     }
-    for (int i = 0; i < numOfEnemies; i++) {
+    for (int i = 0; i <= numOfEnemies; i++) {
         if (enemyFiring[i]) {
             enemyBulletY[i]++;
             if (enemyBulletY[i] > HEIGHT) {
                 enemyFiring[i] = false;
             }
             if (enemyBulletY[i] == playerY && enemyBulletX[i] == playerX) {
-                playerInit();
-                enemyInit();
-                isFiring = false;
-                for (int j = 0; j < numOfEnemies; j++) {
-                    enemyFiring[j] = false;
-                }
-                score = 0;
                 gameOver = true;
                 break;
             }
